@@ -1,0 +1,133 @@
+@use "theme";
+@use "@material/top-app-bar/mdc-top-app-bar";
+@use "@material/top-app-bar";
+@use "@material/icon-button";
+@use "@material/card/mdc-card";
+@use "@material/card";
+@use "@material/typography/mdc-typography";
+@use "@material/typography";
+@import "@material/layout-grid/mdc-layout-grid";
+@import "@material/layout-grid";
+
+@include icon-button.core-styles;
+@include card.core-styles;
+
+header{
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  height: 15%;
+}
+
+.my-card {
+  height: 75vh;
+  width: 25vw;
+}
+
+.card-header {
+  margin: 1.25rem 0;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.card-header h2,
+.card-header h3 {
+  margin: 0;
+}
+
+.card-icon {
+  padding-right: 8px;
+}
+
+.mdc-card__media {
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+.card-body {
+  padding: 16px;
+}
+
+.fit-to-parent{
+  height: 100%;
+}
+
+.icon {
+  @include icon-button.icon-size(32px);
+}
+
+.mdc-top-app-bar__row{
+  justify-content: center;
+  vertical-align: middle;
+}
+
+.demo-card__title{
+  margin-left: 10px;
+}
+
+.demo-card__secondary{
+  margin-left: 10px;
+}
+
+.zoom {
+  padding: 50px;
+  background-color: green;
+  transition: transform .2s; /* Animation */
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+/**
+body
+    background-repeat: no-repeat
+    background-attachment: fixed
+    background-size: cover
+
+
+.pos
+    align-content: left
+    margin-left: 10px
+
+
+
+div.gallery 
+    margin: 5px
+    border: 1px solid black
+    float: left
+    width: 180px
+  
+  
+  div.gallery:hover 
+    border: 1px solid #777
+  
+  
+  div.gallery img 
+    width: 180px
+  height: 215px
+  
+  
+  div.desc 
+    padding: 15px
+    text-align: center
+  
+  .zoom
+    transform: scale(2)
+
+  
+
+  .divpos
+    width:1600px
+    height:700px
+    position:absolute
+    top:50%
+    left:50%
+    margin:-350px 0 0 -800px
+    background: white
+    opacity: 0.8
+*/
