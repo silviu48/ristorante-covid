@@ -5,6 +5,7 @@
         }
     },
     "require": {
-        "cboden/ratchet": "^0.4.2"
+        "cboden/ratchet": "^0.4.2",
+        "hhxsv5/php-sse": "~1.0"
     }
 }
