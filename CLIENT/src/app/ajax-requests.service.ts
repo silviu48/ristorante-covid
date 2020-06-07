@@ -13,4 +13,8 @@ export class AjaxRequestsService {
   request(endpoint: string){
     return this.http.get(endpoint, {responseType: 'json'});
   }
+
+  requestImage(endpoint: string){
+    return this.http.get(endpoint, {responseType: 'blob'});
+  }
 }

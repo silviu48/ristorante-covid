@@ -1,3 +1,26 @@
 <div>
-    <p> menu works!! </p>
+    <mat-toolbar>
+        <mat-toolbar-row>
+            <h2> menu </h2>
+            <button mat-raised-button color="primary" (click)="helpRequest()"> Ho bisogno di Aiuto! </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-grid-list cols="5"> 
+        <mat-grid-tile *ngFor='let entry of menuEntries'>
+            <mat-card>
+                
+                <img mat-card-image [src]="entry['img']" *ngIf="entry['img'].lenght != 0">
+                <mat-card-title> {{ entry['nome'] }} </mat-card-title>
+                <mat-card-content> 
+                    Tempo Preparazione: {{ entry['tempoPreparazione']/60}} m {{ entry['tempoPreparazione']%60}} s
+                    <br>
+
+                </mat-card-content>
+                <mat-card-actions>
+                    <button [id]="entry['id']" mat-button (click)="placeOrder(this.entry['id'])"> ORDINA</button>
+                    <label> {{ entry['costo'] }} &euro;</label>
+                </mat-card-actions>
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
 </div>

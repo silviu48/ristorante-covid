@@ -1,0 +1,60 @@
+$toolbarHeight: 10vh;
+
+mat-toolbar{
+
+    width: 100%;
+    height: $toolbarHeight;
+    top: 0;
+    
+    position: absolute;
+
+    h2 {
+        float: left;
+        font-family: sail;
+        margin: 1% 1%;
+        font-size: xx-large;    
+    }
+
+    spacer{
+        flex: 1 1 auto;
+        width: 50%;
+        float: right;
+
+        button{
+            float: right;
+            margin: 1% 1%;
+        }
+
+        mat-icon{
+            margin: 1% 1%;
+            float: right;
+        }
+    }
+}
+mat-grid-list{
+
+    margin-top: 12vh;
+
+
+    mat-grid-tile{
+        
+        mat-card{
+        
+            
+            margin-left: 5%;
+        
+            mat-card img{
+                object-fit: fill; /*this makes the image in src fit to the size specified below*/
+                width: 140%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+                height: 100%;
+            }
+        
+            label{
+                margin: 4% 5% 0 0;
+                float: right;
+            }
+        }
+    
+    }
+}
+

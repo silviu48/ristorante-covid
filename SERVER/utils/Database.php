@@ -10,9 +10,9 @@
 
         function executeQuery($query, $args){
             $stmt = $this->connection->prepare($query);
-            foreach($args as $value) $stmt->bind_param($value['type'], $value['value']);
+            foreach($args as $value) $stmt->bind_param($args['type'], $args['value']);
             $stmt->execute();
-            $result = $stmt->get_result()->fetch_all();
+            $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
             $stmt->reset();
             return $result;
         }
