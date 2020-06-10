@@ -1,0 +1,40 @@
+header{
+
+    width: 100%;
+    height: 10vh;
+    top: 0;
+    position: absolute;
+    display: flex;
+    background-color: #F5F5F5;
+
+    h2 {
+        float: left;
+        font-family: sail;
+        margin: 1% 1%;
+        font-size: xx-large;    
+    }
+
+}
+
+table{
+
+    width: 100%;
+    margin-top: 11vh;
+
+    .low{
+        background-color: lightgreen;
+    }
+
+    .normal{
+        background-color: yellow;
+    }
+
+    .high{
+        background-color: red;
+    }
+
+    button{
+        float: right;
+    }
+
+}

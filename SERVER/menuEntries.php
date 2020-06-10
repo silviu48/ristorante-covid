@@ -5,19 +5,22 @@
 
     $db = new Database();
     if(isset($_GET['tipologia'])){
-        $res = $db->executeQuery(
+        $stmt = $db->newQuery(
             /*"SELECT p.*, i.nome, i.allergenico 
             FROM piatto p JOIN fattoda f ON p.id = f.piatto 
             JOIN ingrediente i ON f.ingrediente = i.id"*/
             "SELECT * FROM piatto WHERE tipologia = ?"
-            , array('type'=>'s', 'value'=>$_GET['tipologia']));
+        );
+        $stmt->bind_param('s', $_GET['tipologia']);
+        $res = $db->executeQuery($stmt);
     } else {
-        $res = $db->executeQuery(
+        $stmt = $db->executeQuery(
             /*"SELECT p.*, i.nome, i.allergenico 
             FROM piatto p JOIN fattoda f ON p.id = f.piatto 
             JOIN ingrediente i ON f.ingrediente = i.id"*/
             "SELECT * FROM piatto"
-            , []);
+        );
+        $res = $db->executeQuery($stmt);
         foreach($res as $entry){
             if(isset($entry['img'])) $entry['img'] = 'data:image;base64,'.$entry['img'];
         }

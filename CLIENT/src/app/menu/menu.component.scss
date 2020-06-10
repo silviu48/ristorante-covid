@@ -5,8 +5,8 @@ mat-toolbar{
     width: 100%;
     height: $toolbarHeight;
     top: 0;
-    
     position: absolute;
+    display: flex;
 
     h2 {
         float: left;
@@ -15,38 +15,44 @@ mat-toolbar{
         font-size: xx-large;    
     }
 
-    spacer{
-        flex: 1 1 auto;
-        width: 50%;
-        float: right;
+    .spacer{
 
-        button{
-            float: right;
-            margin: 1% 1%;
-        }
+        flex: 1 1 auto;
+
+    }
+
+    .right-buttons{
+
+        justify-content: flex-end;
+        float: right;
+        
 
         mat-icon{
             margin: 1% 1%;
-            float: right;
         }
+
+        .button-label{
+            margin-top: -20px;
+            display: flex;
+        }
+
     }
 }
+
 mat-grid-list{
 
-    margin-top: 12vh;
-
+    margin-top: 11vh;
 
     mat-grid-tile{
         
         mat-card{
-        
             
+            width: calc(80% - 0.75px);
             margin-left: 5%;
         
-            mat-card img{
-                object-fit: fill; /*this makes the image in src fit to the size specified below*/
-                width: 140%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
-                height: 100%;
+            img{
+                object-fit: cover;
+                align-content: center;
             }
         
             label{

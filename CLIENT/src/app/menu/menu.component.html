@@ -1,23 +1,27 @@
 <div>
     <mat-toolbar>
-        <mat-toolbar-row>
+        <span>
             <h2> menu </h2>
-            <button mat-raised-button color="primary" (click)="helpRequest()"> Ho bisogno di Aiuto! </button>
-        </mat-toolbar-row>
+        </span>
+        <span class="spacer"></span>
+        <span class="right-buttons">
+            <button mat-button (click)="helpRequest()"> Aiuto <mat-icon> help </mat-icon></button>
+            <button mat-button  (click)="showOrders()"> I miei Ordini <mat-icon> list </mat-icon></button>
+        </span>
     </mat-toolbar>
-    <mat-grid-list cols="5"> 
+    <mat-grid-list cols="4" rowHeight="25em"> 
         <mat-grid-tile *ngFor='let entry of menuEntries'>
-            <mat-card>
+            <mat-card role="group" tabindex="0">
                 
-                <img mat-card-image [src]="entry['img']" *ngIf="entry['img'].lenght != 0">
+                <img mat-card-image [src]="entry['img']" *ngIf="entry['img'].lenght != 0" onerror="this.style.display='none'">
                 <mat-card-title> {{ entry['nome'] }} </mat-card-title>
                 <mat-card-content> 
-                    Tempo Preparazione: {{ entry['tempoPreparazione']/60}} m {{ entry['tempoPreparazione']%60}} s
+                    Tempo Attesa: {{ entry['tempoPreparazione']*(entry['ordiniAttivi']+1)/60}} m
                     <br>
 
                 </mat-card-content>
                 <mat-card-actions>
-                    <button [id]="entry['id']" mat-button (click)="placeOrder(this.entry['id'])"> ORDINA</button>
+                    <button [id]="entry['id']" mat-button (click)="placeOrder(this.entry['id'])" disabled="{{ !entry['disponibile'] }}"> ORDINA</button>
                     <label> {{ entry['costo'] }} &euro;</label>
                 </mat-card-actions>
             </mat-card>

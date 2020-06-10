@@ -8,13 +8,26 @@
 
         }
 
-        function executeQuery($query, $args){
-            $stmt = $this->connection->prepare($query);
-            foreach($args as $value) $stmt->bind_param($args['type'], $args['value']);
+        function startTransaction(){
+            $this->connection->begin_transaction();
+        }
+
+        function newQuery($query){
+            return $this->connection->prepare($query);
+        }
+
+        function executeQuery($stmt){
             $stmt->execute();
             $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-            $stmt->reset();
             return $result;
+        }
+
+        function insertQuery($stmt){
+            return $stmt->execute();
+        }
+
+        function commit(){
+            return $this->connection->commit();
         }
 
         function __destruct()

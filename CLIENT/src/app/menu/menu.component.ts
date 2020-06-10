@@ -32,14 +32,31 @@ export class MenuComponent implements OnInit {
     });
   }
 
-  placeOrder(id: String){
-    console.log("Help Me");
+  placeOrder(id: string){
+
+    console.log("I have the High grounds, Anakin!" + id);
+    this.ajax.request("http://localhost/ristorante-covid/SERVER/newOrder.php?id="+id).subscribe(response =>{
+      
+      if(response != false){
+        this.menuEntries.forEach(element => {
+          if(element['id'] == id) element['ordiniAttivi']++;
+        });
+      } else console.log(response);
+      
+    }, error => console.log(error));
+
   }
 
   helpRequest(){
 
-    console.log("Help Me");
+    console.log("ほう…向かってくるのか");
     
+  }
+
+  showOrders(){
+
+    console.log("Hello there General Kenobi!");
+
   }
 
   getImage(img: String){

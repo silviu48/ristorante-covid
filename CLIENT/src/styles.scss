@@ -30,6 +30,10 @@ $CLIENT-theme: mat-light-theme($CLIENT-primary, $CLIENT-accent, $CLIENT-warn);
 @import url("https://use.typekit.net/jid0yoy.css");
 
 html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    display: table;
     min-height: 100%;
 }
 
@@ -39,12 +43,17 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif; 
 
     footer {
-        
+        // fix footer at the bottom
+        display: table-row;
+        height: 0;
+
+
+        clear: both;
         position: relative;
         left: 0;
         bottom: 0;
         width: 100%;
-        background-color: lightgrey;
+        background-color: #F5F5F5;
         color: black;
         text-align: left;
         
