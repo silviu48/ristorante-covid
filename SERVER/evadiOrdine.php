@@ -4,17 +4,16 @@ require_once("./utils/Database.php");
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *'); //CHANGE IT FOR SECURITY REASONS
+    
 
 if(isset($_GET['id'])){
 
-    $db = new Database();
-    $db->startTransaction();
+    $piatto = $_GET['id'];
+    DB::startTransaction();
 
-    $stmt = $db->newQuery("
-        SELECT ordine FROM contiene WHERE piatto = ? AND evaso = 0 LIMIT 1
+    $res = DB::query("
+        SELECT ordine FROM contiene WHERE piatto = $piatto AND evaso = 0 LIMIT 1
     ");
-    $stmt->bind_param("i", $_GET['id']);
-    $res = $db->executeQuery($stmt);
     /*
     * LIMIT nelle Subquery non funziona
     $stmt = $db->newQuery(
@@ -24,16 +23,22 @@ if(isset($_GET['id'])){
         "
     );
     */
-    $stmt = $db->newQuery(
-        "UPDATE contiene
-        SET quantitaAttuale = quantitaAttuale - 1 
-        WHERE ordine = ? and piatto = ?
-        "
-    );
-    $stmt->bind_param("ii", $res[0]['ordine'], $_GET['id']);
-    $res = $db->insertQuery($stmt);
-    $success = $db->commit();
-    echo json_encode($success);
+    $ordine = $res->fetch_assoc()['ordine'];
+
+    if(isset($ordine)){
+        $affected_rows = DB::getAffectedRows(
+            "UPDATE contiene
+            SET quantitaAttuale = quantitaAttuale - 1 
+            WHERE ordine = $ordine and piatto = $piatto"
+        );
+
+        DB::endTransaction();
+        
+        if ($affected_rows) echo json_encode("true");
+        else echo json_encode("false");
+
+    } else echo json_encode("Nessun Piatto");
+    
 
 } else echo json_encode("Errore");
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 07, 2020 at 08:35 PM
+-- Generation Time: Jun 10, 2020 at 06:18 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -74,7 +74,8 @@ DELIMITER ;
 CREATE TABLE `contiene` (
   `ordine` int(11) NOT NULL,
   `piatto` int(11) NOT NULL,
-  `quantita` int(11) DEFAULT 1,
+  `quantitaOrdinata` int(11) NOT NULL DEFAULT 1,
+  `quantitaAttuale` int(11) DEFAULT 1,
   `evaso` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -82,26 +83,45 @@ CREATE TABLE `contiene` (
 -- Dumping data for table `contiene`
 --
 
-INSERT INTO `contiene` (`ordine`, `piatto`, `quantita`, `evaso`) VALUES
-(1, 1, 1, 0),
-(1, 5, 10, 0);
+INSERT INTO `contiene` (`ordine`, `piatto`, `quantitaOrdinata`, `quantitaAttuale`, `evaso`) VALUES
+(1, 1, 35, 10, 0),
+(1, 2, 1, 0, 1),
+(1, 4, 12, 10, 0),
+(1, 5, 9, 8, 0),
+(2, 1, 19, 8, 0),
+(3, 1, 3, 0, 1);
 
 --
 -- Triggers `contiene`
 --
 DELIMITER $$
 CREATE TRIGGER `allineaUpdate` AFTER UPDATE ON `contiene` FOR EACH ROW BEGIN
-UPDATE piatto set piatto.ordiniAttivi = NEW.quantita where piatto.id = NEW.piatto;
-
-CALL aggiornaIngredienti(NEW.piatto);
+IF NEW.quantitaAttuale > OLD.quantitaAttuale THEN
+	UPDATE piatto set piatto.ordiniAttivi = piatto.ordiniAttivi + 1 where piatto.id = NEW.piatto;
+	CALL aggiornaIngredienti(NEW.piatto);
+END IF;
+IF NEW.quantitaAttuale < OLD.quantitaAttuale THEN
+	UPDATE piatto set piatto.ordiniAttivi = piatto.ordiniAttivi - 1 where piatto.id = NEW.piatto;
+END IF;
 END
 $$
 DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `nuovoOrdine` AFTER INSERT ON `contiene` FOR EACH ROW BEGIN
-    UPDATE piatto SET piatto.ordiniAttivi = piatto.ordiniAttivi + NEW.quantita WHERE piatto.id = NEW.piatto;
+    UPDATE piatto SET piatto.ordiniAttivi = piatto.ordiniAttivi + NEW.quantitaAttuale WHERE piatto.id = NEW.piatto;
 
     CALL aggiornaIngredienti(NEW.piatto);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `setEvaso` BEFORE UPDATE ON `contiene` FOR EACH ROW BEGIN
+IF NEW.quantitaAttuale = 0 THEN 
+	SET NEW.evaso = 1;
+END IF;
+IF NEW.quantitaOrdinata > OLD.quantitaOrdinata THEN 
+	SET NEW.evaso = 0;
+END IF;
 END
 $$
 DELIMITER ;
@@ -147,9 +167,9 @@ CREATE TABLE `ingrediente` (
 --
 
 INSERT INTO `ingrediente` (`id`, `nome`, `note`, `allergenico`, `quantitaMinima`, `quantitaDisponibile`) VALUES
-(1, 'Pasta', 'Barilla', 0, 1000, 5000),
-(2, 'Passata di Pomodoro', 'Penny', 0, 500, 12000),
-(3, 'Riso', 'Basmati', 0, 300, 200);
+(1, 'Pasta', 'Barilla', 0, 1000, 1300),
+(2, 'Passata di Pomodoro', 'Penny', 0, 500, 10150),
+(3, 'Riso', 'Basmati', 0, 300, 400);
 
 -- --------------------------------------------------------
 
@@ -168,7 +188,9 @@ CREATE TABLE `ordine` (
 --
 
 INSERT INTO `ordine` (`id`, `tavolo`, `evaso`) VALUES
-(1, 1, 0);
+(1, 1, 0),
+(2, 1, 0),
+(3, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -192,11 +214,11 @@ CREATE TABLE `piatto` (
 --
 
 INSERT INTO `piatto` (`id`, `nome`, `costo`, `tempoPreparazione`, `ordiniAttivi`, `tipologia`, `disponibile`, `img`) VALUES
-(1, 'Pasta al Pomodoro', '10.00', 600, 1, 'Primo', 1, '/imgsource/sp.jpg'),
+(1, 'Pasta al Pomodoro', '10.00', 600, -16, 'Primo', 1, '/imgsource/sp.jpg'),
 (2, 'Bistecca', '15.00', 1200, 0, 'Carne', 1, ''),
 (3, 'Sushi', '10.00', 300, 0, 'Pesce', 1, ''),
-(4, 'Cotoletta', '5.00', 300, 0, 'Carne', 1, ''),
-(5, 'Riso', '3.00', 600, 10, 'Primo', 0, ''),
+(4, 'Cotoletta', '5.00', 300, 10, 'Carne', 1, ''),
+(5, 'Riso', '3.00', 600, 8, 'Primo', 0, ''),
 (6, 'Zuppa di Miso', '3.00', 300, 0, 'Zuppa', 0, ''),
 (7, 'Acqua', '1.50', 300, 0, 'Bibita', 1, '');
 
@@ -268,7 +290,7 @@ ALTER TABLE `ingrediente`
 -- AUTO_INCREMENT for table `ordine`
 --
 ALTER TABLE `ordine`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `piatto`

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AjaxRequestsService } from "../ajax-requests.service";
+import { SseService } from "../sse.service";
+import { HttpParams, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-menu',
@@ -10,14 +12,14 @@ export class MenuComponent implements OnInit {
   menuEntries: Array<Object>;
   tipologie: Array<Object>;
 
-  constructor(private ajax: AjaxRequestsService) { 
+  constructor(private ajax: AjaxRequestsService, private sse: SseService) { 
     this.tipologie = new Array<Object>();
     this.menuEntries = Array<Object>();
   }
 
   ngOnInit(): void {
-    this.ajax.request("http://localhost:80/ristorante-covid/SERVER/tipologie.php").subscribe(response => {
-      Object.values(response).forEach(element => {
+    this.ajax.request("http://localhost:80/ristorante-covid/SERVER/tipologie.php").subscribe(response => {  
+    Object.values(response).forEach(element => {
         this.tipologie.push(element['tipologia']);
       });
 
@@ -25,19 +27,30 @@ export class MenuComponent implements OnInit {
         this.ajax.request("http://localhost:80/ristorante-covid/SERVER/menuEntries.php?tipologia="+i).subscribe(response => {
           Object.values(response).forEach(element => {
             if(element['img'].length != 0) element['img'] = this.getImage(element['img']);
-            this.menuEntries.push(element);
+              this.menuEntries.push(element);
           })
         });
       });
     });
+    this.sse
+      .getServerSentEvent("http://localhost/ristorante-covid/SERVER/serveSSE.php")
+      .subscribe(data => {
+        data = JSON.parse(data);
+        data.map(element =>
+          this.menuEntries.reduce((accumulator, orig) => (
+            (orig['id']  === element.id) ? (
+              orig['ordiniAttivi'] = element.ordiniAttivi,
+              orig['disponibile'] = element.disponibile
+            ) : accumulator
+          ), element)
+        );
+      });
   }
 
   placeOrder(id: string){
 
-    console.log("I have the High grounds, Anakin!" + id);
-    this.ajax.request("http://localhost/ristorante-covid/SERVER/newOrder.php?id="+id).subscribe(response =>{
-      
-      if(response != false){
+    this.ajax.request("http://localhost/ristorante-covid/SERVER/newOrder.php",new HttpParams().set("id", id)).subscribe(response =>{
+      if(response == "true"){
         this.menuEntries.forEach(element => {
           if(element['id'] == id) element['ordiniAttivi']++;
         });

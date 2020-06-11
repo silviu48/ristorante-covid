@@ -6,17 +6,13 @@
     header('Content-Type: application/json');
     header('Access-Control-Allow-Origin: *'); //CHANGE IT FOR SECURITY REASONS
 
-    $db = new Database();
-
-    $stmt = $db->newQuery(
-        "SELECT p.id as id, p.nome as nome, SUM(c.quantitaAttuale) as quantita
-        FROM contiene c JOIN piatto p ON c.piatto = p.id
-        WHERE c.evaso = 0
+    $res = DB::query(
+        "SELECT id, nome , ordiniAttivi
+        FROM piatto p
+        WHERE ordiniAttivi != 0
         GROUP BY p.id"
     );
-
-    $res = $db->executeQuery($stmt);
-
+    $res= $res->fetch_all(MYSQLI_ASSOC);
 
     echo json_encode($res);
 
