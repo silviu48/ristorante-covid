@@ -9,12 +9,12 @@ import {MatTableDataSource, MatTable} from '@angular/material/table';
 export class Ordine{
   id: number;
   nome: string;
-  quantita: number;
+  ordiniAttivi: number;
 
   constructor(obj: Object){
     this.id = obj['id'];
     this.nome = obj['nome'];
-    this.quantita = obj['quantita'];
+    this.ordiniAttivi = obj['ordiniAttivi'];
   }
 }
 
@@ -49,7 +49,7 @@ export class OrdiniComponent implements OnInit {
       .getServerSentEvent("http://localhost/ristorante-covid/SERVER/serveSSE.php")
       .subscribe(data => {
         data = JSON.parse(data);
-        var filtered = data.filter(item => item.ordiniAttivi != "0");//filtered => [6, 7, 8, 9]//array => [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+        var filtered = data.filter(item => item.ordiniAttivi != "0");
         this.setData(filtered);
       });
   }
@@ -58,8 +58,13 @@ export class OrdiniComponent implements OnInit {
     this.ajax.request("http://localhost/ristorante-covid/SERVER/evadiOrdine.php?id="+id).subscribe(response => {
       if(response == ""+true) {
         this.ordini.data.forEach(element => {
-          if(""+element.id == id) {element.quantita--;}
+          if(element.id == +id) {
+            element.ordiniAttivi--;
+          }
         });
+        // filter best method
+        var filtered = this.ordini.data.filter(item => item.ordiniAttivi != 0);
+        this.setData(filtered);
     }}); 
   }
 

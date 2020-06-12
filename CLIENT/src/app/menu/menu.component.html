@@ -6,7 +6,7 @@
         <span class="spacer"></span>
         <span class="right-buttons">
             <button mat-button (click)="helpRequest()"> Aiuto <mat-icon> help </mat-icon></button>
-            <button mat-button  (click)="showOrders()"> I miei Ordini <mat-icon> shopping_cart </mat-icon></button>
+            <a [routerLink]="['/carrello']"><button mat-button> I miei Ordini <mat-icon> shopping_cart </mat-icon></button></a>
         </span>
     </mat-toolbar>
     <mat-grid-list cols="4" rowHeight="25em"> 

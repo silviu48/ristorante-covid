@@ -1,1 +1,16 @@
-<p>tavoli works!</p>
+<div>
+    <header>
+        <h2> tavoli </h2>
+    </header>
+    <mat-grid-list cols='7' rowHeight="2:1">
+        <mat-grid-tile *ngFor="let tavolo of tavoli">
+            <button mat-stroked-button 
+                [style.background-color]="tavolo['libero'] == '1' ? 'lightgreen' : 'red'"
+                (click)="showPopup(tavolo['id'])"
+            > 
+                <span> Tavolo {{ tavolo['id'] }}</span><br>
+                <span> Capacità: {{ tavolo['capacita'] }}</span>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>

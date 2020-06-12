@@ -1,0 +1,52 @@
+<div>
+    <mat-toolbar>
+        <span>
+            <a [routerLink]="['/menu']"><mat-icon> arrow_back </mat-icon></a>
+        </span>
+        <span class="spacer"></span>
+        <span class="right-buttons">
+            <h2> carrello </h2>
+        </span>
+    </mat-toolbar>
+    <aside> 
+        <p>
+            Pubblicità
+        </p>
+        <!-- <button mat-raised-button> Termine Pasto </button> -->
+    </aside>
+    <table mat-table [dataSource]="myOrders" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="nome">
+        <th mat-header-cell *matHeaderCellDef> Piatto </th>
+        <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
+        <td mat-footer-cell *matFooterCellDef> Totale </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="costo">
+            <th mat-header-cell *matHeaderCellDef> Costo </th>
+            <td mat-cell *matCellDef="let element"> {{element.costo}} &euro; </td>
+            <td mat-footer-cell *matFooterCellDef>  </td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantita">
+        <th mat-header-cell *matHeaderCellDef> # </th>
+        <td mat-cell *matCellDef="let element"> {{element.quantita}} </td>
+        <td mat-footer-cell *matFooterCellDef>  </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="totale">
+            <th mat-header-cell *matHeaderCellDef> <span class="total"> Totale </span></th>
+            <td mat-cell *matCellDef="let element"> 
+                <span class="total"> {{ element.costo*element.quantita  }} &euro; </span>
+            </td>
+            <td mat-footer-cell *matFooterCellDef> <span class="total">{{ getTotal() }}&euro; </span></td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="tableHeader, sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: tableHeader;"></tr>
+        <tr mat-footer-row *matFooterRowDef="tableHeader, sticky: true"></tr>
+    </table>
+
+    
+
+</div>

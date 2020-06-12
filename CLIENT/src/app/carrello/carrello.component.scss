@@ -1,0 +1,78 @@
+$toolbarHeight: 10vh;
+
+mat-toolbar{
+
+    width: 100%;
+    height: $toolbarHeight;
+    top: 0;
+    position: absolute;
+    display: flex;
+
+    a{
+        text-decoration: none;
+        color: black;
+
+        a:visited{
+            text-decoration: none;  
+            color: black;
+        }
+
+        mat-icon{
+            margin-top: 20%;
+        }
+    }
+
+    .spacer{
+
+        flex: 1 1 auto;
+
+    }
+
+    .right-buttons{
+
+        justify-content: flex-end;
+        float: right;
+        
+        h2 {
+            font-family: sail;
+            margin: 1% 1%;
+            font-size: xx-large;    
+        }
+
+    }
+}
+
+table{
+
+    margin-top: 12vh;
+    margin-left: 15px;
+    width: 70%;
+
+    .total{
+        float: right;
+    }
+
+    tr.mat-footer-row {
+        font-weight: bold;
+    }
+    
+}
+
+aside {
+    width: 26%;
+    margin-left: 15px;
+    margin-right: 15px;
+    float: right;
+    font-style: italic;
+
+    p{
+        text-align: center;
+    }
+
+    button{
+        margin-top: 15px;
+        width: 100%;
+        height: 100%;
+        background-color: lightgray;
+    }
+}

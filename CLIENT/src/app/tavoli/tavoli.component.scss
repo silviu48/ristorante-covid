@@ -1,0 +1,34 @@
+header{
+
+    width: 100%;
+    height: 10vh;
+    top: 0;
+    position: absolute;
+    display: flex;
+    background-color: #F5F5F5;
+
+    h2 {
+        float: left;
+        font-family: sail;
+        margin: 1% 1%;
+        font-size: xx-large;    
+    }
+
+}
+
+mat-grid-list{
+
+    margin-top: 12vh;
+
+    mat-grid-tile{
+
+        button{
+            //border: black 5px solid;
+            margin-left: 2.5px;
+            margin-left: 2.5px;
+            width: 100%;
+        }
+
+    }
+
+}
