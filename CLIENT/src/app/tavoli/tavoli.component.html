@@ -3,14 +3,26 @@
         <h2> tavoli </h2>
     </header>
     <mat-grid-list cols='7' rowHeight="2:1">
-        <mat-grid-tile *ngFor="let tavolo of tavoli">
-            <button mat-stroked-button 
-                [style.background-color]="tavolo['libero'] == '1' ? 'lightgreen' : 'red'"
-                (click)="showPopup(tavolo['id'])"
-            > 
-                <span> Tavolo {{ tavolo['id'] }}</span><br>
-                <span> Capacità: {{ tavolo['capacita'] }}</span>
-            </button>
+        <mat-grid-tile *ngFor="let tavolo of tavoli" [ngSwitch]="tavolo['libero']">
+            <ng-container *ngSwitchCase="0">
+                <button mat-stroked-button style="background-color: red" disabled> 
+                    <span> Tavolo {{ tavolo['id'] }}</span><br>
+                    <span> Capacità: {{ tavolo['capacita'] }}</span>
+                </button>
+            </ng-container>
+            <ng-container *ngSwitchCase="1">
+                <button mat-stroked-button style="background-color: yellow" (click)="showOrder(tavolo['id'])"> 
+                    <span> Tavolo {{ tavolo['id'] }}</span><br>
+                    <span> Capacità: {{ tavolo['capacita'] }}</span>
+                </button>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+                <button mat-stroked-button style="background-color: green" (click)="assignTable(tavolo['id'])"> 
+                    <span> Tavolo {{ tavolo['id'] }}</span><br>
+                    <span> Capacità: {{ tavolo['capacita'] }}</span>
+                </button>
+            </ng-container>
+            
         </mat-grid-tile>
     </mat-grid-list>
 </div>
