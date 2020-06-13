@@ -5,6 +5,8 @@ import { TavoliComponent } from "./tavoli/tavoli.component";
 import { OrdiniComponent } from "./ordini/ordini.component";
 import { MenuComponent } from "./menu/menu.component";
 import { CarrelloComponent } from "./carrello/carrello.component";
+import { PiattiComponent } from "./piatti/piatti.component";
+import { DispensaComponent } from "./dispensa/dispensa.component";
 
 
 const routes: Routes = [
@@ -13,6 +15,8 @@ const routes: Routes = [
   {path: 'tavoli', component: TavoliComponent},
   {path: 'ordini', component: OrdiniComponent},
   {path: 'carrello', component: CarrelloComponent},
+  {path: 'piatti', component: PiattiComponent},
+  {path: 'dispensa', component: DispensaComponent},
 ];
 
 @NgModule({

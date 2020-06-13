@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { CookieService } from "ngx-cookie-service";
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from "@angular/forms";
 
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
@@ -24,6 +25,13 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { PiattiComponent } from './piatti/piatti.component';
+import { DispensaComponent } from './dispensa/dispensa.component';
+import { AddDialogComponent } from './add-dialog/add-dialog.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -32,7 +40,10 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     TavoliComponent,
     OrdiniComponent,
     CarrelloComponent,
-    DialogComponent
+    DialogComponent,
+    PiattiComponent,
+    DispensaComponent,
+    AddDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +51,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     HttpClientModule,
     BrowserAnimationsModule,
     RouterModule,
+    ReactiveFormsModule,
     MatCardModule,
     MatGridListModule,
     MatButtonModule,
@@ -49,10 +61,15 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatSortModule, 
     MatTableModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSidenavModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule
   ],
   entryComponents:[
-    DialogComponent
+    DialogComponent,
+    AddDialogComponent
   ],
   providers: [
     CookieService

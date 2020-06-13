@@ -1,0 +1,44 @@
+<div *ngIf="data.caller==0">
+    <h3 mat-dialog-title> Piatto </h3>
+    <mat-dialog-content> 
+        <form [formGroup]="form">
+            <mat-form-field *ngFor="let entry of attr" appearance="outline">
+                <mat-label> {{ entry }} </mat-label>
+                <mat-error *ngIf="form.controls[entry].invalid"> Inserisci un valore </mat-error>
+                <input *ngIf="!entry.includes('ingrediente')" matNativeControl #{{entry}} formControlName="{{ entry }}" placeholder="Inserisci {{ entry }}">
+                <mat-select *ngIf="entry.includes('ingrediente')" formControlName="{{ entry }}">
+                    <mat-option *ngFor="let ing of ingredienti" [value]="ing.id">
+                      {{ing.nome}}
+                    </mat-option>
+                </mat-select>
+                <br>
+            </mat-form-field> 
+            <button mat-button (click)="addIngrediente()"> Aggiungi Ingrediente </button> 
+        </form> 
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close tabindex="-1"> Indietro </button>
+        <button mat-button (click)="addPiatto()" tabindex="-1"> Aggiungi </button>
+    </mat-dialog-actions>
+</div>
+
+<div *ngIf="data.caller==1">
+    <h3 mat-dialog-title> Ingrediente </h3>
+    <mat-dialog-content> 
+        <form [formGroup]="form">
+            
+            <mat-form-field *ngFor="let entry of attr" appearance="outline">
+                <mat-label> {{ entry }} </mat-label>
+                <input matNativeControl #{{entry}} formControlName="{{ entry }}" placeholder="Inserisci {{ entry }}">
+                <mat-error *ngIf="form.controls[entry].invalid"> Inserisci un valore </mat-error>
+                <br>
+            </mat-form-field> 
+        </form> 
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close tabindex="-1"> Indietro </button>
+        <button mat-button (click)="applyIngrediente()" tabindex="-1"> Conferma </button>
+    </mat-dialog-actions>
+</div>

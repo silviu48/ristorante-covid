@@ -36,20 +36,23 @@ export class OrdiniComponent implements OnInit {
 
   private setData(data): void{
     this.ordini.data = Object.values(data);
+    console.log(this.ordini)
   }
 
   ngOnInit(): void {
     /*
     this.ajax.request("http://localhost/ristorante-covid/SERVER/orders.php").subscribe(response => {
       this.setData(response);
-      this.ordini.sort = this.sort;
+      
     }); 
     */
+    
     this.sse.getServerSentEvent("http://localhost/ristorante-covid/SERVER/serveSSE.php").subscribe(data => {
       data = JSON.parse(data);
       var filtered = data.filter(item => item.ordiniAttivi != "0");
       this.setData(filtered);
     });
+    this.ordini.sort = this.sort;
   }
 
   evadiOrdine(id: string): void{
