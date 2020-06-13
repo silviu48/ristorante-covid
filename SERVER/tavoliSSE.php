@@ -26,6 +26,5 @@ require_once "./utils/Database.php";
             return false; // Return false if no new messages
         } else return json_encode($data);
     }, 15), 'message', 5000);
-    // StreamUpdate::updatePiatti();
 
 ?>

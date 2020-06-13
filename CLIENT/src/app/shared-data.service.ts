@@ -4,21 +4,19 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SharedDataService {
-  tavolo: string;
-  ordineAttuale: string;
-
   constructor() { }
 
   getTavolo(){
-    return this.tavolo;
+    return localStorage.getItem("tavolo");
   }
 
   getOrdine(){
-    return this.ordineAttuale;
+    return localStorage.getItem("ordine");
   }
 
-  setData(ordine: string, tavolo: string){
-    this.tavolo = tavolo;
-    this.ordineAttuale = ordine;
+  setData(ordine: string, tavolo: string, search: boolean = false){
+    localStorage.setItem("ordine", ordine);
+    localStorage.setItem("tavolo", tavolo);
+    localStorage.setItem("search", ""+search);
   }
 }

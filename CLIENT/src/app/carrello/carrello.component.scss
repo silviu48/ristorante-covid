@@ -8,20 +8,6 @@ mat-toolbar{
     position: absolute;
     display: flex;
 
-    a{
-        text-decoration: none;
-        color: black;
-
-        a:visited{
-            text-decoration: none;  
-            color: black;
-        }
-
-        mat-icon{
-            margin-top: 20%;
-        }
-    }
-
     .spacer{
 
         flex: 1 1 auto;
@@ -39,6 +25,20 @@ mat-toolbar{
             font-size: xx-large;    
         }
 
+    }
+}
+
+a{
+    text-decoration: none;
+    color: black;
+
+    a:visited{
+        text-decoration: none;  
+        color: black;
+    }
+
+    mat-icon{
+        margin-top: 20%;
     }
 }
 

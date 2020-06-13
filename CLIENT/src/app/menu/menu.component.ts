@@ -3,6 +3,7 @@ import { AjaxRequestsService } from "../ajax-requests.service";
 import { SseService } from "../sse.service";
 import { HttpParams } from '@angular/common/http';
 import { SharedDataService } from "../shared-data.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-menu',
@@ -15,7 +16,7 @@ export class MenuComponent implements OnInit {
   tavolo: string;
   ordineAttuale: string;
 
-  constructor(private ajax: AjaxRequestsService, private sse: SseService, private sdata: SharedDataService) { 
+  constructor(private ajax: AjaxRequestsService, private sse: SseService, private sdata: SharedDataService, private snackbar: MatSnackBar) { 
     this.tipologie = new Array<Object>();
     this.menuEntries = new Array<Object>();
   }
@@ -50,19 +51,38 @@ export class MenuComponent implements OnInit {
           ), element)
         );
       });
+    if(this.ordineAttuale === "0"){
+      this.sse.getServerSentEvent("http://localhost/ristorante-covid/SERVER/tavoliSSE.php").subscribe(data => {
+        data = JSON.parse(data);
+        data.forEach(element => {
+          if(element.id == this.tavolo && element.libero == "0") {
+            this.ajax.request("http://localhost/ristorante-covid/SERVER/getOrder.php", new HttpParams().set("tavolo", this.tavolo)).subscribe(response =>{
+              if(response[0]['ordine'] != "0") {
+                this.sdata.setData(response[0]['ordine'], this.tavolo);
+                window.location.reload();
+              }
+            })
+          }
+        });
+      });
+    }
+    
   }
 
   placeOrder(id: string){
-
-    this.ajax.request("http://localhost/ristorante-covid/SERVER/newOrder.php",new HttpParams().set("id", id).set("ordineAttuale", this.ordineAttuale).set("tavolo", this.tavolo)).subscribe(response =>{
-      if(response == "true"){
-        this.menuEntries.forEach(element => {
-          if(element['id'] == id) element['ordiniAttivi']++;
-        });
-      } else console.log(response);
-      
-    }, error => console.log(error));
-
+    this.snackbar.open("Richiesta inoltrata alla cucina", "Annulla",{
+      duration: 5000
+    }).afterDismissed().subscribe(element => {
+      if(!element.dismissedByAction) 
+        this.ajax.request("http://localhost/ristorante-covid/SERVER/newOrder.php",new HttpParams().set("id", id).set("ordineAttuale", this.ordineAttuale).set("tavolo", this.tavolo)).subscribe(response =>{
+          if(response == "true"){
+            this.menuEntries.forEach(element => {
+              if(element['id'] == id) element['ordiniAttivi']++;
+            });
+          } else console.log(response);
+          
+        }, error => console.log(error));
+    })
   }
 
   helpRequest(){
@@ -73,6 +93,10 @@ export class MenuComponent implements OnInit {
 
   getImage(img: String){
     return "http://localhost:80/ristorante-covid/SERVER/"+img;
+  }
+
+  ngOnDestroy() {
+    
   }
 
 }

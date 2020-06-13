@@ -1,18 +1,20 @@
 <div>
     <mat-toolbar>
-        <span>
+        <span *ngIf="!backDisabled">
             <a [routerLink]="['/menu']"><mat-icon> arrow_back </mat-icon></a>
         </span>
         <span class="spacer"></span>
         <span class="right-buttons">
-            <h2> carrello </h2>
+            <h2> i miei ordini </h2>
         </span>
     </mat-toolbar>
     <aside> 
         <p>
-            Pubblicità
+            <a href="https://github.com/silviu48"><i class="fab fa-github"></i> Follow me on Github! </a>
         </p>
-        <!-- <button mat-raised-button> Termine Pasto </button> -->
+        <span *ngIf="!backDisabled">
+            <button mat-raised-button (click)="changeState()"> Conferma Ordine </button>
+        </span>
     </aside>
     <table mat-table [dataSource]="myOrders" class="mat-elevation-z8">
 

@@ -45,13 +45,11 @@ export class OrdiniComponent implements OnInit {
       this.ordini.sort = this.sort;
     }); 
     */
-    this.sse
-      .getServerSentEvent("http://localhost/ristorante-covid/SERVER/serveSSE.php")
-      .subscribe(data => {
-        data = JSON.parse(data);
-        var filtered = data.filter(item => item.ordiniAttivi != "0");
-        this.setData(filtered);
-      });
+    this.sse.getServerSentEvent("http://localhost/ristorante-covid/SERVER/serveSSE.php").subscribe(data => {
+      data = JSON.parse(data);
+      var filtered = data.filter(item => item.ordiniAttivi != "0");
+      this.setData(filtered);
+    });
   }
 
   evadiOrdine(id: string): void{
